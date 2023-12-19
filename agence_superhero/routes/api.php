@@ -14,7 +14,9 @@ use App\Http\Controllers\API\PowerController;
 use App\Http\Controllers\API\SuperPowerController;
 use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\VehicleController;
+use App\Http\Controllers\API\UserController;
 
+Route::apiresource('users', UserController::class);
 Route::apiresource('cities', CityController::class);
 Route::apiresource('gadgets', GadgetController::class);
 Route::apiresource('heros_cities', HerosCityController::class);
