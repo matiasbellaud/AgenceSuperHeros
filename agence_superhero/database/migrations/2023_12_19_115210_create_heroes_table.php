@@ -11,11 +11,20 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('heros', function (Blueprint $table) {
             $table->id();
+            
+            $table->integer('idUser');
+            $table->foreign('idHomePlanet')
+            ->references('id')
+            ->on('planets')
+            ->onDelete('restrict')
+            ->onUpdate('restrict');
+
             $table->string('name');
             $table->string('secretIdentity');
             $table->string('gender');
             $table->string('hairColor');
             $table->text('description');
+
             $table->integer('idHomePlanet');
             $table->foreign('idHomePlanet')
                 ->references('id')
@@ -36,6 +45,7 @@ return new class extends Migration
                 ->on('vehicles')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
+
             $table->timestamps();
             
         });
