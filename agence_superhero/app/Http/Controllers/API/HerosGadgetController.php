@@ -9,9 +9,7 @@ use App\Models\HerosGadget;
 
 class HerosGadgetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $herosGadgets = HerosGadget::all();
@@ -20,51 +18,12 @@ class HerosGadgetController extends Controller
         return response()->json($herosGadgets);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public static function store(int $idHero, int $idGadget)
     {
-        //
+        $herosGadget = new HerosGadget;
+        $herosGadget->idHero = $idHero;
+        $herosGadget->idGadget = $idGadget;
+        $herosGadget->save();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

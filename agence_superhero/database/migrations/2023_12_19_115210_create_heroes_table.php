@@ -9,13 +9,13 @@ return new class extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('heros', function (Blueprint $table) {
+        Schema::create('heroes', function (Blueprint $table) {
             $table->id();
             
             $table->integer('idUser');
-            $table->foreign('idHomePlanet')
+            $table->foreign('idUser')
             ->references('id')
-            ->on('planets')
+            ->on('users')
             ->onDelete('restrict')
             ->onUpdate('restrict');
 
@@ -35,7 +35,7 @@ return new class extends Migration
             $table->integer('idSuperPower');
             $table->foreign('idSuperPower')
                 ->references('id')
-                ->on('superPowers')
+                ->on('super_powers')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
@@ -56,6 +56,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('heros');
+        Schema::dropIfExists('heroes');
     }
 };

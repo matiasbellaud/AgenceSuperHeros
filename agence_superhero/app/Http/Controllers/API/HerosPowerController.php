@@ -8,9 +8,7 @@ use App\Models\HerosPower;
 
 class HerosPowerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+ 
     public function index()
     {
         $herosPowers = HerosPower::all();
@@ -19,51 +17,11 @@ class HerosPowerController extends Controller
         return response()->json($herosPowers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public static function store(int $idhero, int $idPower)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $herosPower = new HerosPower;
+        $herosPower->idHero = $idhero;
+        $herosPower->idPower = $idPower;
+        $herosPower->save();
     }
 }

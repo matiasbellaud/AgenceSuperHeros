@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\GadgetController;
+use App\Http\Controllers\API\HeroController;
 use App\Http\Controllers\API\HerosCityController;
 use App\Http\Controllers\API\HerosGadgetController;
 use App\Http\Controllers\API\HerosPowerController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\API\VehicleController;
 use App\Http\Controllers\API\UserController;
 
 Route::apiresource('users', UserController::class);
+Route::apiresource('heros', HeroController::class);
 Route::apiresource('cities', CityController::class);
 Route::apiresource('gadgets', GadgetController::class);
 Route::apiresource('heros_cities', HerosCityController::class);
@@ -29,4 +31,4 @@ Route::apiresource('super_powers', SuperPowerController::class);
 Route::apiresource('teams', TeamController::class);
 Route::apiresource('vehicles', VehicleController::class);
 
-// // Route::get('/categorie/coucou/{t}', [CategorieCont::class, 'coucou']);
+Route::get('/vehicles/showName/{t}', [VehicleController::class, 'showName']);

@@ -8,9 +8,6 @@ use App\Models\Vehicle;
 
 class VehicleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $vehicles = Vehicle::all();
@@ -19,51 +16,37 @@ class VehicleController extends Controller
         return response()->json($vehicles);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:50'],
+                'description' => ['required', 'string', 'max:50'],
+                'type' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $vehicle = new Vehicle;
+        $vehicle->name = $request->input('name');
+        $vehicle->description = $request->input('description');
+        $vehicle->type = $request->input('type');
+        $vehicle->save();
+        return response()->json(['succes' => 'true'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function showId(string $id)
     {
-        //
+        $vehicle = Vehicle::find($id);
+        return $vehicle;  
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public static function showName(string $name)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $vehicle = Vehicle::where('name', $name)->first();
+        return $vehicle;
     }
 }
