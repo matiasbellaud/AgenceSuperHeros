@@ -35,6 +35,15 @@ class TeamController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+        
+        $team = new Team;
+        $team->name = $name;
+        $team->save();
+        return $team;
+    }
+
     public function showId(string $id)
     {
         $team = Team::find($id);

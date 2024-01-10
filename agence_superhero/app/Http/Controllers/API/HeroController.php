@@ -44,14 +44,23 @@ class HeroController extends Controller
 
         //PLANET
         $planet = PlanetController::showName($request->input('planet'));
+        if ($planet == null){
+            $planet = PlanetController::storeForHero($request->input('planet'));
+        }
         $idplanet = $planet->id;
 
         //SUPER-POWER 
         $superPower = SuperPowerController::showName($request->input('superPower'));
+        if ($superPower == null){
+            $superPower = SuperPowerController::storeForHero($request->input('superPower'));
+        }
         $idSuperPower = $superPower->id;
         
         // VEHICULE
         $vehicle = VehicleController::showName($request->input('vehicle'));
+        if ($vehicle == null){
+            $vehicle = VehicleController::storeForHero($request->input('vehicle'));
+        }
         $idVehicle = $vehicle->id;
 
 
@@ -71,6 +80,9 @@ class HeroController extends Controller
         $cities = $request->input('cities');
         for($i = 0; $i < count($cities); ++$i) {
             $city = CityController::showName($cities[$i]);
+            if ($city == null){
+                $city = CityController::storeForHero($cities[$i]);
+            }
             $idCity = $city->id;
             HerosCityController::store($hero->id, $idCity);
         }
@@ -79,6 +91,9 @@ class HeroController extends Controller
         $gadgets = $request->input('gadgets');
         for($i = 0; $i < count($gadgets); ++$i) {
             $gadget = GadgetController::showName($gadgets[$i]);
+            if ($gadget == null){
+                $gadget = GadgetController::storeForHero($gadgets[$i]);
+            }
             $idGadget = $gadget->id;
             HerosGadgetController::store($hero->id, $idGadget);
         }
@@ -87,6 +102,9 @@ class HeroController extends Controller
         $teams = $request->input('teams');
         for($i = 0; $i < count($teams); ++$i) {
             $team = TeamController::showName($teams[$i]);
+            if ($team == null){
+                $team = TeamController::storeForHero($teams[$i]);
+            }
             $idTeam = $team->id;
             HerosTeamController::store($hero->id, $idTeam);
         }
@@ -94,9 +112,12 @@ class HeroController extends Controller
         // //POWER
         $powers = $request->input('power');
         for($i = 0; $i < count($powers); ++$i) {
-            $power = GadgetController::showName($powers[$i]);
+            $power = PowerController::showName($powers[$i]);
+            if ($power == null){
+                $power = PowerController::storeForHero($powers[$i]);
+            }
             $idPower = $power->id;
-            GadgetController::store($hero->id, $idPower);
+            HerosPowerController::store($hero->id, $idPower);
         }
 
         return response()->json(['succes' => 'true'], 200);

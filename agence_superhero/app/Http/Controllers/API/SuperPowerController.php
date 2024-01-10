@@ -38,6 +38,16 @@ class SuperPowerController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+       
+        $superPower = new SuperPower;
+        $superPower->name = $name;
+        $superPower->description = "temporaire a revenir dessus";
+        $superPower->save();
+        return $superPower;
+    }
+
     public function showId(string $id)
     {
         $superPower = SuperPower::find($id);

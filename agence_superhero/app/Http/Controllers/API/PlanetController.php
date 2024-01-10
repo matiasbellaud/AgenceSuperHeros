@@ -36,6 +36,15 @@ class PlanetController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+    
+        $planet = new Planet;
+        $planet->name = $name;
+        $planet->save();
+        return $planet;
+    }
+
     public function showId(string $id)
     {
         $planet = Planet::find($id);

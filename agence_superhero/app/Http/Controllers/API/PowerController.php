@@ -37,13 +37,22 @@ class PowerController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+        $power = new Power;
+        $power->name = $name;
+        $power->description = "temporaire a revenir dessus";
+        $power->save();
+        return $power;
+    }
+
     public function showId(string $id)
     {
         $power = Power::find($id);
         return $power;  
     }
 
-    public function showName(string $name)
+    public static function showName(string $name)
     {
         $power = Power::where('name', $name)->first();
         return ($power);

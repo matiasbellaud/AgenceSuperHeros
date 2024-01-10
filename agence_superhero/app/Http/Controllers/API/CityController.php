@@ -34,10 +34,19 @@ class CityController extends Controller
                 'errors' => $e->errors(),
             ], 422);
         }
-        $user = new City;
-        $user->firstName = $request->input('name');
-        $user->save();
+        $city = new City;
+        $city->name = $request->input('name');
+        $city->save();
         return response()->json(['succes' => 'true'], 200);
+    }
+
+    public static function storeForHero(string $name)
+    {
+       
+        $city = new City;
+        $city->name = $name;
+        $city->save();
+        return $city;
     }
 
     public function showId(string $id)

@@ -36,6 +36,16 @@ class GadgetController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+        
+        $gadget = new Gadget;
+        $gadget->name = $name;
+        $gadget->description = "temporaire a revenir dessus";
+        $gadget->save();
+        return $gadget;
+    }
+
     public function showId(string $id)
     {
         $gadget = Gadget::find($id);

@@ -38,6 +38,16 @@ class VehicleController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    public static function storeForHero(string $name)
+    {
+        $vehicle = new Vehicle;
+        $vehicle->name = $name;
+        $vehicle->description = "temporaire a revenir dessus";
+        $vehicle->type = "temporaire a revenir dessus";
+        $vehicle->save();
+        return $vehicle;
+    }
+
     public function showId(string $id)
     {
         $vehicle = Vehicle::find($id);
