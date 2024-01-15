@@ -26,4 +26,21 @@ class HerosCityController extends Controller
         $herosCity->save();
     }
 
+    public static function showCityByHero(string $idHero)
+    {
+        $idCity = HerosCity::where('idHero', $idHero)->get();
+        if (count($idCity) == 0){
+            return response()->json([
+                'succes' => 'false',
+                'errors' => "city not found",
+            ], 404);
+        } 
+        $cities = array();
+        for ($i = 0; $i<count($idCity);$i++){
+            $city = CityController::showId($idCity[$i]->idCity);
+            array_push($cities, $city);
+        }
+        return ($cities);
+    }
+
 }

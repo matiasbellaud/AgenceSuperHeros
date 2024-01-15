@@ -49,7 +49,7 @@ class CityController extends Controller
         return $city;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $cityRecord = City::find($id);
         return $cityRecord;  

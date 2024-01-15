@@ -171,6 +171,7 @@ class HeroController extends Controller
 
 
             //finir avec les 4 autres mais en passant par leur table de liaisons
+            //CITY EST DEJA FAIT LE METTRE ICI
         }
         return response()->json($heroes);
     }
