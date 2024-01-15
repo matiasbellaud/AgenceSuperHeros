@@ -48,7 +48,7 @@ class VehicleController extends Controller
         return $vehicle;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $vehicle = Vehicle::find($id);
         return $vehicle;  

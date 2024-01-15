@@ -123,15 +123,67 @@ class HeroController extends Controller
         return response()->json(['succes' => 'true'], 200);
     }
 
+    
+    public function getHeroesByUser(Request $request)
+    {
+        
+        try {
+            $request->validate([
+                'idUser' => ['required', 'int'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $heroes = Hero::where('idUser', $request->idUser)->get();
+        for ($i = 0; $i<count($heroes);$i++){
+            //PLANET
+            $planet = PlanetController::showId($heroes[$i]->idHomePlanet);
+            if ($planet == null){
+                return response()->json([
+                    'succes' => 'false',
+                    'errors' => "planet not found",
+                ], 404);
+            } 
+            $heroes[$i]->idHomePlanet = $planet->name;
+
+            //SUPER-POWER
+            $superPower = SuperPowerController::showId($heroes[$i]->idSuperPower);
+            if ($superPower == null){
+                return response()->json([
+                    'succes' => 'false',
+                    'errors' => "super-power not found",
+                ], 404);
+            } 
+            $heroes[$i]->idSuperPower = $superPower->name;
+
+            //VEHICLE
+            $vehicle = VehicleController::showId($heroes[$i]->idVehicle);
+            if ($vehicle == null){
+                return response()->json([
+                    'succes' => 'false',
+                    'errors' => "vehicle not found",
+                ], 404);
+            } 
+            $heroes[$i]->idVehicle = $vehicle->name;
+
+
+            //finir avec les 4 autres mais en passant par leur table de liaisons
+        }
+        return response()->json($heroes);
+    }
+
     public function showId(string $id)
     {
-        $gadget = Gadget::find($id);
-        return $gadget;  
+        $hero = Hero::find($id);
+        return $hero;  
     }
 
     public function showName(string $name)
     {
-        $gadget = Gadget::where('name', $name)->first();
-        return ($gadget);
+        $hero = Hero::where('name', $name)->first();
+        return ($hero);
     }
 }

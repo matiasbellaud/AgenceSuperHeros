@@ -48,7 +48,7 @@ class SuperPowerController extends Controller
         return $superPower;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $superPower = SuperPower::find($id);
         return $superPower;  
