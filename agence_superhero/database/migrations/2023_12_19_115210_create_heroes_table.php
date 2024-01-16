@@ -32,13 +32,6 @@ return new class extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
-            $table->integer('idSuperPower');
-            $table->foreign('idSuperPower')
-                ->references('id')
-                ->on('super_powers')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-
             $table->integer('idVehicle');
             $table->foreign('idVehicle')
                 ->references('id')

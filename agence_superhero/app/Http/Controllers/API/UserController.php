@@ -9,17 +9,6 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-    public function index()
-    {
-        $users = User::all();
-        return response()->json($users);
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         try {
@@ -42,26 +31,5 @@ class UserController extends Controller
         $user->password = $request->input('password');
         $user->save();
         return response()->json(['succes' => 'true'], 200);
-    }
-
-    public function show(string $id)
-    {   
-        $users = User::find($id);
-        return $users;  
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }

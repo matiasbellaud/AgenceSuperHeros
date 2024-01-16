@@ -40,7 +40,7 @@ class HeroController extends Controller
                 'errors' => $e->errors(),
             ], 422);
         }
-
+        
         //PLANET
         $planet = PlanetController::showName($request->input('planet'));
         if ($planet == null){
@@ -55,7 +55,7 @@ class HeroController extends Controller
             $vehicle = VehicleController::storeForHero($request->input('vehicle'));
         }
         $idVehicle = $vehicle->id;
-
+        
 
         $hero = new Hero;
         $hero->idUser = $request->input('idUser');
@@ -66,13 +66,16 @@ class HeroController extends Controller
         $hero->description = $request->input('description');
         $hero->idHomePlanet = $idplanet;
         $hero->idVehicle = $idVehicle;
+        
         $hero->save();
-
+        
+        
         //CITIES
         $cities = $request->input('cities');
         for($i = 0; $i < count($cities); ++$i) {
             $city = CityController::showName($cities[$i]);
             if ($city == null){
+                print("test");
                 $city = CityController::storeForHero($cities[$i]);
             }
             $idCity = $city->id;
@@ -80,15 +83,19 @@ class HeroController extends Controller
         }
 
         //GADGETS
-        $gadgets = $request->input('gadgets');
-        for($i = 0; $i < count($gadgets); ++$i) {
-            $gadget = GadgetController::showName($gadgets[$i]);
-            if ($gadget == null){
-                $gadget = GadgetController::storeForHero($gadgets[$i]);
+
+        if (count($request->input('gadgets')) == 0){
+            $gadgets = $request->input('gadgets');
+            for($i = 0; $i < count($gadgets); ++$i) {
+                $gadget = GadgetController::showName($gadgets[$i]);
+                if ($gadget == null){
+                    $gadget = GadgetController::storeForHero($gadgets[$i]);
+                }
+                $idGadget = $gadget->id;
+                HerosGadgetController::store($hero->id, $idGadget);
             }
-            $idGadget = $gadget->id;
-            HerosGadgetController::store($hero->id, $idGadget);
         }
+        
 
         //TEAMS
         $teams = $request->input('teams');
