@@ -83,8 +83,7 @@ class HeroController extends Controller
         }
 
         //GADGETS
-
-        if (count($request->input('gadgets')) == 0){
+        if (count($request->input('gadgets')) != 0){
             $gadgets = $request->input('gadgets');
             for($i = 0; $i < count($gadgets); ++$i) {
                 $gadget = GadgetController::showName($gadgets[$i]);

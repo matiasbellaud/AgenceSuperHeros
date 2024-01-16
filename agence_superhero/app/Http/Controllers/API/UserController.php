@@ -11,6 +11,7 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+        print("test");
         try {
             $request->validate([
                 'firstName' => ['required', 'string', 'max:30'],
