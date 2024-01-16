@@ -44,7 +44,7 @@ class TeamController extends Controller
         return $team;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $team = Team::find($id);
         return $team;  

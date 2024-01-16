@@ -46,7 +46,7 @@ class PowerController extends Controller
         return $power;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $power = Power::find($id);
         return $power;  

@@ -26,7 +26,7 @@ class HerosCityController extends Controller
         $herosCity->save();
     }
 
-    public static function showCityByHero(string $idHero)
+    public static function showCityByHero(int $idHero)
     {
         $idCity = HerosCity::where('idHero', $idHero)->get();
         if (count($idCity) == 0){
@@ -40,6 +40,7 @@ class HerosCityController extends Controller
             $city = CityController::showId($idCity[$i]->idCity);
             array_push($cities, $city);
         }
+
         return ($cities);
     }
 

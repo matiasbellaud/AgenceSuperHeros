@@ -46,10 +46,10 @@ class GadgetController extends Controller
         return $gadget;
     }
 
-    public function showId(string $id)
+    public static function showId(string $id)
     {
         $gadget = Gadget::find($id);
-        return response()->json($gadget);  
+        return $gadget;   
     }
 
     public static function showName(string $name)

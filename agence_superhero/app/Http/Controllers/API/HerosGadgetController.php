@@ -26,4 +26,16 @@ class HerosGadgetController extends Controller
         $herosGadget->save();
     }
 
+    public static function showGadgetByHero(int $idHero)
+    {
+        $idGadget = HerosGadget::where('idHero', $idHero)->get();
+        $gadgets = array();
+        for ($i = 0; $i<count($idGadget);$i++){
+            $gadget = GadgetController::showId($idGadget[$i]->idGadget);
+            array_push($gadgets, $gadget);
+        }
+
+        return ($gadgets);
+    }
+
 }

@@ -26,4 +26,16 @@ class HerosTeamController extends Controller
         $herosTeam->save();
     }
 
+    public static function showTeamByHero(int $idHero)
+    {
+        $idTeam = HerosTeam::where('idHero', $idHero)->get();
+        $teams = array();
+        for ($i = 0; $i<count($idTeam);$i++){
+            $team = TeamController::showId($idTeam[$i]->idTeam);
+            array_push($teams, $team);
+        }
+
+        return ($teams);
+    }
+
 }

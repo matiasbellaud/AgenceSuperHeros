@@ -24,4 +24,22 @@ class HerosPowerController extends Controller
         $herosPower->idPower = $idPower;
         $herosPower->save();
     }
+
+    public static function showPowerByHero(int $idHero)
+    {
+        $idPower = HerosPower::where('idHero', $idHero)->get();
+        if (count($idPower) == 0){
+            return response()->json([
+                'succes' => 'false',
+                'errors' => "power not found",
+            ], 404);
+        } 
+        $powers = array();
+        for ($i = 0; $i<count($idPower);$i++){
+            $power = PowerController::showId($idPower[$i]->idPower);
+            array_push($powers, $power);
+        }
+
+        return ($powers);
+    }
 }

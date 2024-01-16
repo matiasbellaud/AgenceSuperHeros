@@ -28,7 +28,6 @@ class HeroController extends Controller
                 'hairColor' => ['required', 'string', 'max:50'],
                 'description' => ['required', 'string', 'max:50'],
                 'planet' => ['required', 'string'],
-                'superPower' => ['required', 'string'],
                 'vehicle' => ['required', 'string'],
                 // 'cities' => ['required', '[]string'],
                 // 'gadgets' => ['required', '[]string'],
@@ -49,12 +48,6 @@ class HeroController extends Controller
         }
         $idplanet = $planet->id;
 
-        //SUPER-POWER 
-        $superPower = SuperPowerController::showName($request->input('superPower'));
-        if ($superPower == null){
-            $superPower = SuperPowerController::storeForHero($request->input('superPower'));
-        }
-        $idSuperPower = $superPower->id;
         
         // VEHICULE
         $vehicle = VehicleController::showName($request->input('vehicle'));
@@ -72,7 +65,6 @@ class HeroController extends Controller
         $hero->hairColor = $request->input('hairColor');
         $hero->description = $request->input('description');
         $hero->idHomePlanet = $idplanet;
-        $hero->idSuperPower = $idSuperPower;
         $hero->idVehicle = $idVehicle;
         $hero->save();
 
@@ -87,7 +79,7 @@ class HeroController extends Controller
             HerosCityController::store($hero->id, $idCity);
         }
 
-        // //GADGETS
+        //GADGETS
         $gadgets = $request->input('gadgets');
         for($i = 0; $i < count($gadgets); ++$i) {
             $gadget = GadgetController::showName($gadgets[$i]);
@@ -98,7 +90,7 @@ class HeroController extends Controller
             HerosGadgetController::store($hero->id, $idGadget);
         }
 
-        // //TEAMS
+        //TEAMS
         $teams = $request->input('teams');
         for($i = 0; $i < count($teams); ++$i) {
             $team = TeamController::showName($teams[$i]);
@@ -109,7 +101,7 @@ class HeroController extends Controller
             HerosTeamController::store($hero->id, $idTeam);
         }
 
-        // //POWER
+        //POWER
         $powers = $request->input('power');
         for($i = 0; $i < count($powers); ++$i) {
             $power = PowerController::showName($powers[$i]);
@@ -149,16 +141,6 @@ class HeroController extends Controller
             } 
             $heroes[$i]->idHomePlanet = $planet->name;
 
-            //SUPER-POWER
-            $superPower = SuperPowerController::showId($heroes[$i]->idSuperPower);
-            if ($superPower == null){
-                return response()->json([
-                    'succes' => 'false',
-                    'errors' => "super-power not found",
-                ], 404);
-            } 
-            $heroes[$i]->idSuperPower = $superPower->name;
-
             //VEHICLE
             $vehicle = VehicleController::showId($heroes[$i]->idVehicle);
             if ($vehicle == null){
@@ -169,9 +151,37 @@ class HeroController extends Controller
             } 
             $heroes[$i]->idVehicle = $vehicle->name;
 
+            //CITY
+            $cities = HerosCityController::showCityByHero($heroes[$i]->id);
+            $citiesName = array();
+            for ($j=0;$j<count($cities);$j++){
+                array_push($citiesName, $cities[$j]->name);
+            }
+            $heroes[$i]->cities = $citiesName;
 
-            //finir avec les 4 autres mais en passant par leur table de liaisons
-            //CITY EST DEJA FAIT LE METTRE ICI
+            //POUVOIR
+            $powers = HerosPowerController::showPowerByHero($heroes[$i]->id);
+            $powersName = array();
+            for ($j=0;$j<count($powers);$j++){
+                array_push($powersName, $powers[$j]->name);
+            }
+            $heroes[$i]->powers = $powersName;
+
+            //GADGET
+            $gadgets = HerosGadgetController::showGadgetByHero($heroes[$i]->id);
+            $gadgetsName = array();
+            for ($j=0;$j<count($gadgets);$j++){
+                array_push($gadgetsName, $gadgets[$j]->name);
+            }
+            $heroes[$i]->gadgets = $gadgetsName;
+
+            //TEAM
+            $teams = HerosTeamController::showTeamByHero($heroes[$i]->id);
+            $teamsName = array();
+            for ($j=0;$j<count($teams);$j++){
+                array_push($teamsName, $teams[$j]->name);
+            }
+            $heroes[$i]->teams = $teamsName;
         }
         return response()->json($heroes);
     }
