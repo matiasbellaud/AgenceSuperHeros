@@ -29,16 +29,38 @@ class HeroController extends Controller
                 'description' => ['required', 'string', 'max:50'],
                 'planet' => ['required', 'string'],
                 'vehicle' => ['required', 'string'],
-                // 'cities' => ['required', '[]string'],
-                // 'gadgets' => ['required', '[]string'],
-                // 'teams' => ['required', '[]string'],
-                // 'power' => ['required', '[]string'],
             ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'succes' => 'false',
                 'errors' => $e->errors(),
             ], 422);
+        }
+
+        //ERROR POWER
+        $powersTest = $request->input('power');
+        $powersTestCount = 0;
+        for($i = 0; $i < count($powersTest); ++$i) {
+            if ($powersTest[$i] == null){
+                $powersTestCount++;
+            }
+        }
+        
+        if ($powersTestCount == count($powersTest)){
+            return;
+        }
+
+        //ERROR CITY
+        $citiesTest = $request->input('cities');
+        $citiesTestCount = 0;
+
+        for($i = 0; $i < count($citiesTest); ++$i) {
+            if ($citiesTest[$i] == null){
+                $citiesTestCount++;
+            }
+        }
+        if ($citiesTestCount == count($citiesTest)){
+            return;
         }
         
         //PLANET
@@ -73,25 +95,29 @@ class HeroController extends Controller
         //CITIES
         $cities = $request->input('cities');
         for($i = 0; $i < count($cities); ++$i) {
-            $city = CityController::showName($cities[$i]);
-            if ($city == null){
-                print("test");
-                $city = CityController::storeForHero($cities[$i]);
+            if ($cities[$i] != null){
+                $city = CityController::showName($cities[$i]);
+                if ($city == null){
+                    print("test");
+                    $city = CityController::storeForHero($cities[$i]);
+                }
+                $idCity = $city->id;
+                HerosCityController::store($hero->id, $idCity);
             }
-            $idCity = $city->id;
-            HerosCityController::store($hero->id, $idCity);
         }
 
         //GADGETS
         if (count($request->input('gadgets')) != 0){
             $gadgets = $request->input('gadgets');
             for($i = 0; $i < count($gadgets); ++$i) {
-                $gadget = GadgetController::showName($gadgets[$i]);
-                if ($gadget == null){
-                    $gadget = GadgetController::storeForHero($gadgets[$i]);
+                if ($gadgets[$i] != null){
+                    $gadget = GadgetController::showName($gadgets[$i]);
+                    if ($gadget == null){
+                        $gadget = GadgetController::storeForHero($gadgets[$i]);
+                    }
+                    $idGadget = $gadget->id;
+                    HerosGadgetController::store($hero->id, $idGadget);
                 }
-                $idGadget = $gadget->id;
-                HerosGadgetController::store($hero->id, $idGadget);
             }
         }
         
@@ -110,15 +136,17 @@ class HeroController extends Controller
         //POWER
         $powers = $request->input('power');
         for($i = 0; $i < count($powers); ++$i) {
-            $power = PowerController::showName($powers[$i]);
-            if ($power == null){
-                $power = PowerController::storeForHero($powers[$i]);
+            if ($powers[$i] != null){
+                $power = PowerController::showName($powers[$i]);
+                if ($power == null){
+                    $power = PowerController::storeForHero($powers[$i]);
+                }
+                $idPower = $power->id;
+                HerosPowerController::store($hero->id, $idPower);
             }
-            $idPower = $power->id;
-            HerosPowerController::store($hero->id, $idPower);
         }
 
-        return response()->json(['succes' => 'true'], 200);
+        return response()->json("success");
     }
 
     
