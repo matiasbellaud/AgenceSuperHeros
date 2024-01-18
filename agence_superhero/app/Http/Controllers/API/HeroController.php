@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\VehicleController;
 use Illuminate\Http\Request;
 use App\Models\Hero;
+use App\Models\HerosCity;
+use App\Models\HerosGadget;
+use App\Models\HerosPower;
+use App\Models\HerosTeam;
 
 class HeroController extends Controller
 {
@@ -218,6 +222,42 @@ class HeroController extends Controller
             $heroes[$i]->teams = $teamsName;
         }
         return response()->json($heroes);
+    }
+
+    public function deleteHeroById(Request $request)
+    {
+        
+        try {
+            $request->validate([
+                'idHero' => ['required', 'int'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        
+        $cities = HerosCity::where('idHero', $request->idHero)->get();
+        $gadgets = HerosGadget::where('idHero', $request->idHero)->get();
+        $powers = HerosPower::where('idHero', $request->idHero)->get();
+        $teams = HerosTeam::where('idHero', $request->idHero)->get();
+
+        for ($i=0;$i<count($cities);$i++){
+            HerosCity::where('id', $cities[$i]->id)->delete();
+        }
+        for ($i=0;$i<count($gadgets);$i++){
+            HerosGadget::where('id', $gadgets[$i]->id)->delete();
+        }
+        for ($i=0;$i<count($powers);$i++){
+            HerosPower::where('id', $powers[$i]->id)->delete();
+        }
+        for ($i=0;$i<count($teams);$i++){
+            HerosTeam::where('id', $teams[$i]->id)->delete();
+        }
+        $hero = Hero::where('id', $request->idHero)->delete();
+
+        return response()->json("success");
     }
 
     public function showId(string $id)
