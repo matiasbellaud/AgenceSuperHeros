@@ -11,6 +11,40 @@ use App\Models\HerosGadget;
 use App\Models\HerosPower;
 use App\Models\HerosTeam;
 
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="API projet Ynov Laravel"
+ * )
+ * 
+ * @OA\Post(
+ *     path="/api/post/getHeroesByUser",
+ *     summary="get all heros info by user ID",
+ *     @OA\Response(response=200, description="all data from heros")
+ * )
+ * @OA\Post(
+ *     path="/api/post/createHero",
+ *     summary="create one hero info",
+ *     @OA\Response(response=200, description="success")
+ * )
+ * @OA\Post(
+ *     path="/api/post/deleteHeroById",
+ *     summary="delete hero by id",
+ *     @OA\Response(response=200, description="success")
+ * )
+ * @OA\Post(
+ *     path="/api/post/register",
+ *     summary="register the account",
+ *     @OA\Response(response=201, description="success")
+ * ) 
+ * @OA\Post(
+ *     path="/api/post/login",
+ *     summary="login account",
+ *     @OA\Response(response=201, description="data idUser")
+ * )
+ *
+ */
+
 class HeroController extends Controller
 {
     public function index()
