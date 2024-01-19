@@ -8,9 +8,7 @@ use App\Models\Planet;
 
 class PlanetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $planets = Planet::all();
@@ -19,51 +17,43 @@ class PlanetController extends Controller
         return response()->json($planets);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $planet = new Planet;
+        $planet->name = $request->input('name');
+        $planet->save();
+        return response()->json(['succes' => 'true'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public static function storeForHero(string $name)
     {
-        //
+    
+        $planet = new Planet;
+        $planet->name = $name;
+        $planet->save();
+        return $planet;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public static function showId(string $id)
     {
-        //
+        $planet = Planet::find($id);
+        return $planet;  
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public static function showName(string $name)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $planet = Planet::where('name', $name)->first();
+        return ($planet);
     }
 }

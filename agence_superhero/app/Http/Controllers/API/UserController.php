@@ -9,19 +9,9 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-    public function index()
+    public function register(Request $request)
     {
-        $users = User::all();
-        return response()->json($users);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
+        print("test");
         try {
             $request->validate([
                 'firstName' => ['required', 'string', 'max:30'],
@@ -39,29 +29,33 @@ class UserController extends Controller
         $user->firstName = $request->input('firstName');
         $user->lastName = $request->input('lastName');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = hash('sha256',$request->input('password'));
         $user->save();
         return response()->json(['succes' => 'true'], 200);
     }
 
-    public function show(string $id)
-    {   
-        $users = User::find($id);
-        return $users;  
-    }
-
-    public function edit(string $id)
+    public function login(Request $request)
     {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $request->validate([
+                'email' => ['required', 'string', 'max:100'],
+                'password' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+       
+        $user = User::where('email', $request->email)->first();
+        if ($user==null){
+            return response()->json(-1);
+        }
+        $logPassword = hash('sha256',$request->password);
+        if ($logPassword == $user->password){
+            return response()->json($user->id);
+        }
+        return response()->json(-1);
     }
 }

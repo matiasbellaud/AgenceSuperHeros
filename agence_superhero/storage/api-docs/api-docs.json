@@ -1,0 +1,64 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API projet Ynov Laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/post/getHeroesByUser": {
+            "post": {
+                "summary": "get all heros info by user ID",
+                "operationId": "a9a0d242e7047e4593574b1cc615172c",
+                "responses": {
+                    "200": {
+                        "description": "all data from heros"
+                    }
+                }
+            }
+        },
+        "/api/post/createHero": {
+            "post": {
+                "summary": "create one hero info",
+                "operationId": "c70d40c0fd05a598ab6fe5ea249b89f3",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/post/deleteHeroById": {
+            "post": {
+                "summary": "delete hero by id",
+                "operationId": "f058392221c726d8926758ef40f05d73",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/post/register": {
+            "post": {
+                "summary": "register the account",
+                "operationId": "a82a2f6318f32eba55af5025cda061ee",
+                "responses": {
+                    "201": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/post/login": {
+            "post": {
+                "summary": "login account",
+                "operationId": "a34f9368a852cb02aae0dd17b2d3c58e",
+                "responses": {
+                    "201": {
+                        "description": "data idUser"
+                    }
+                }
+            }
+        }
+    }
+}

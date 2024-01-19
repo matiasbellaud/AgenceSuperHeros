@@ -20,50 +20,44 @@ class CityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $city = new City;
+        $city->name = $request->input('name');
+        $city->save();
+        return response()->json(['succes' => 'true'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public static function storeForHero(string $name)
     {
-        //
+       
+        $city = new City;
+        $city->name = $name;
+        $city->save();
+        return $city;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public static function showId(string $id)
     {
-        //
+        $cityRecord = City::find($id);
+        return $cityRecord;  
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public static function showName(string $name)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $cityRecord = City::where('name', $name)->first();
+        return ($cityRecord);
     }
 }

@@ -8,9 +8,7 @@ use App\Models\Power;
 
 class PowerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+  
     public function index()
     {
         $powers = Power::all();
@@ -19,51 +17,44 @@ class PowerController extends Controller
         return response()->json($powers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:50'],
+                'description' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $power = new Power;
+        $power->name = $request->input('name');
+        $power->description = $request->input('description');
+        $power->save();
+        return response()->json(['succes' => 'true'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public static function storeForHero(string $name)
     {
-        //
+        $power = new Power;
+        $power->name = $name;
+        $power->description = "temporaire a revenir dessus";
+        $power->save();
+        return $power;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public static function showId(string $id)
     {
-        //
+        $power = Power::find($id);
+        return $power;  
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public static function showName(string $name)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $power = Power::where('name', $name)->first();
+        return ($power);
     }
 }

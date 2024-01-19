@@ -8,9 +8,6 @@ use App\Models\Gadget;
 
 class GadgetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $gadgets = Gadget::all();
@@ -19,51 +16,45 @@ class GadgetController extends Controller
         return response()->json($gadgets);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:50'],
+                'description' => ['required', 'string', 'max:50'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'succes' => 'false',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+        $gadget = new Gadget;
+        $gadget->name = $request->input('name');
+        $gadget->description = $request->input('description');
+        $gadget->save();
+        return response()->json(['succes' => 'true'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public static function storeForHero(string $name)
     {
-        //
+        
+        $gadget = new Gadget;
+        $gadget->name = $name;
+        $gadget->description = "temporaire a revenir dessus";
+        $gadget->save();
+        return $gadget;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public static function showId(string $id)
     {
-        //
+        $gadget = Gadget::find($id);
+        return $gadget;   
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public static function showName(string $name)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $gadget = Gadget::where('name', $name)->first();
+        return ($gadget);
     }
 }

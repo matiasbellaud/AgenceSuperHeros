@@ -8,9 +8,7 @@ use App\Models\HerosCity;
 
 class HerosCityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $herosCities = HerosCity::all();
@@ -19,51 +17,31 @@ class HerosCityController extends Controller
         return response()->json($herosCities);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public static function store(int $idHero, int $idCity )
     {
-        //
+        $herosCity = new HerosCity;
+        $herosCity->idHero = $idHero;
+        $herosCity->idCity = $idCity;
+        $herosCity->save();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public static function showCityByHero(int $idHero)
     {
-        //
+        $idCity = HerosCity::where('idHero', $idHero)->get();
+        if (count($idCity) == 0){
+            return response()->json([
+                'succes' => 'false',
+                'errors' => "city not found",
+            ], 404);
+        } 
+        $cities = array();
+        for ($i = 0; $i<count($idCity);$i++){
+            $city = CityController::showId($idCity[$i]->idCity);
+            array_push($cities, $city);
+        }
+
+        return ($cities);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
