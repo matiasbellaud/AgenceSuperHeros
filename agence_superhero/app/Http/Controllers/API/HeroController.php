@@ -260,7 +260,7 @@ class HeroController extends Controller
 
     public function deleteHeroById(Request $request)
     {
-        
+        print("test");
         try {
             $request->validate([
                 'idHero' => ['required', 'int'],
