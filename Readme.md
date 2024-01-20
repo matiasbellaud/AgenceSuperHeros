@@ -17,9 +17,9 @@ Pour installer le projet, il faut cloner le repository, puis changer de dossier 
 
 ## 📚 Auteurs
 
-`Maxime fuzeau` => maxime.fuzeau@ynov.com
-`Matias Bellaud` => matias.bellaud@ynov.com
-`Le Bourhis Evan` => evan.lebourhis@ynov.com
+- `Maxime fuzeau` => maxime.fuzeau@ynov.com
+- `Matias Bellaud` => matias.bellaud@ynov.com
+- `Le Bourhis Evan` => evan.lebourhis@ynov.com
 
 ## ✨ liste des fonctionnalités - API
 
