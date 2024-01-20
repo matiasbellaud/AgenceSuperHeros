@@ -12,6 +12,8 @@ Pour installer le projet, il faut cloner le repository, puis changer de dossier 
 
 ## ⚠️ Attention il faut lancer l'API avant de lancer le Front ! ⚠️
 
+Puis créer votre compte et amusez-vous !
+
 ## 🖥️ Technologies
 
 - React
