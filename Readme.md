@@ -10,6 +10,8 @@ Ce projet est un site web qui permet de visualiser les super héros de l'agence 
 
 Pour installer le projet, il faut cloner le repository, puis changer de dossier avec `cd agence_superhero`puis il faut lancer le serveur avec la commande `php artisan serve`.
 
+## ⚠️ Attention il faut lancer l'API avant de lancer le Front ! ⚠️
+
 ## 🖥️ Technologies
 
 - React
